@@ -7,5 +7,5 @@ And there are filters:
   - reflect.
 
 ## Example
-- make filter.c
-- ./filter <KEYWORDS>
+``` make filter.c
+./filter -g input.bmp output.bmp ```
