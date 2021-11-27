@@ -8,6 +8,6 @@ And there are filters:
 
 ## Example
 ``` 
-make filter.c
+gcc filter.c -o filter
 ./filter -g input.bmp output.bmp 
 ```
