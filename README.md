@@ -1,12 +1,12 @@
 # Image filter
-Filter means that you can use 4 different filters on pictures. **This programm supports only .bmp files!**
-And there are filters:
-  - grayscale
-  - blur
-  - sepia
-  - reflect.
+Существует 4 фильтра. **Поддержка только .bmp файлов!**
+Вот они слева на право:
+  - Градации серого (grayscale)
+  - Размытость (blur)
+  - Сепия (sepia)
+  - Отражение (reflect)
 
-## Example
+## Пример
 ``` 
 gcc filter.c -o filter
 ./filter -g input.bmp output.bmp 
