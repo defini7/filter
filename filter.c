@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
 
     // Define allowable filters
-    char *filters = "bgrs";
+    char *filters = "bgrsta";
 
     // Get filter flag and check validity
     char filter = getopt(argc, argv, filters);
@@ -119,6 +119,17 @@ int main(int argc, char *argv[])
         case 's':
             sepia(height, width, image);
             break;
+
+        // thresholding
+        case 't':
+            threshold(height, width, image);
+            break;
+
+        // adaptive thresholding
+        case 'a':
+            adaptive_threshold(height, width, image);
+            break;
+
     }
 
     // Write outfile's BITMAPFILEHEADER
