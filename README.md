@@ -6,8 +6,7 @@
   - Сепия (sepia)
   - Отражение (reflect)
 
-## Пример
+## Запуск (Только на Linux)
 ``` 
-gcc filter.c -o filter
-./filter -g input.bmp output.bmp 
+make
 ```
