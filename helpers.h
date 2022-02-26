@@ -11,3 +11,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width]);
 
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width]);
+
+void threshold(int height, int width, RGBTRIPLE image[height][width]);
+
+void adaptive_threshold(int height, int width, RGBTRIPLE image[height][width]);
