@@ -116,3 +116,62 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     }
     return;
 }
+
+void threshold(int height, int width, RGBTRIPLE image[height][width])
+{
+    for (int i = 0; i < height; i++)
+        for (int j = 0; j < width; j++)
+        {
+            BYTE value = 0;
+
+            if (image[i][j].rgbtRed > 122 || image[i][j].rgbtGreen > 122 || image[i][j].rgbtBlue > 122)
+                value = 255;
+
+            image[i][j].rgbtRed = value;
+            image[i][j].rgbtGreen = value;
+            image[i][j].rgbtBlue = value;
+        }
+
+    return;
+}
+
+void adaptive_threshold(int height, int width, RGBTRIPLE image[height][width])
+{
+    for (int i = 0; i < height; i++)
+        for (int j = 0; j < width; j++)
+        {
+            RGBTRIPLE region_sum;
+
+            region_sum.rgbtRed = 0;
+            region_sum.rgbtGreen = 0;
+            region_sum.rgbtBlue = 0;
+
+            for (int n = -2; n < 3; n++)
+                for(int m = -2; m < 3; m++)
+                {
+                    int x = (j + n < width) ? j + m : width;
+                    int y = (i + m < height) ? i + m : height;
+
+                    x = (x <= 0) ? 0 : x;
+                    y = (y <= 0) ? 0 : y;
+
+                    region_sum.rgbtRed += image[y][x].rgbtRed;
+                    region_sum.rgbtGreen += image[y][x].rgbtGreen;
+                    region_sum.rgbtBlue += image[y][x].rgbtBlue;
+                }
+
+            region_sum.rgbtRed /= 2;
+            region_sum.rgbtGreen /= 2;
+            region_sum.rgbtBlue /= 2;
+
+            BYTE value = 0;
+
+            if (image[i][j].rgbtRed > region_sum.rgbtRed && image[i][j].rgbtGreen > region_sum.rgbtGreen && image[i][j].rgbtBlue > region_sum.rgbtBlue)
+                value = 255;
+
+            image[i][j].rgbtRed = value;
+            image[i][j].rgbtGreen = value;
+            image[i][j].rgbtBlue = value;
+        }
+    return;
+}
