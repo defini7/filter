@@ -6,11 +6,8 @@
 
 int main(int argc, char *argv[])
 {
-
-    // Define allowable filters
     char *filters = "bgrsta";
 
-    // Get filter flag and check validity
     char filter = getopt(argc, argv, filters);
     if (filter == '?')
     {
@@ -18,25 +15,21 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // Ensure only one filter
     if (getopt(argc, argv, filters) != -1)
     {
         fprintf(stderr, "Only one filter allowed.\n");
         return 2;
     }
 
-    // Ensure proper usage
     if (argc != optind + 2)
     {
         fprintf(stderr, "Usage: filter [flag] infile outfile\n");
         return 3;
     }
 
-    // Remember filenames
     char *infile = argv[optind];
     char *outfile = argv[optind + 1];
 
-    // Open input file
     FILE *inptr = fopen(infile, "r");
     if (inptr == NULL)
     {
@@ -44,7 +37,6 @@ int main(int argc, char *argv[])
         return 4;
     }
 
-    // Open output file
     FILE *outptr = fopen(outfile, "w");
     if (outptr == NULL)
     {
@@ -53,11 +45,9 @@ int main(int argc, char *argv[])
         return 5;
     }
 
-    // Read infile's BITMAPFILEHEADER
     BITMAPFILEHEADER bf;
     fread(&bf, sizeof(BITMAPFILEHEADER), 1, inptr);
 
-    // Read infile's BITMAPINFOHEADER
     BITMAPINFOHEADER bi;
     fread(&bi, sizeof(BITMAPINFOHEADER), 1, inptr);
 
@@ -74,7 +64,6 @@ int main(int argc, char *argv[])
     int height = abs(bi.biHeight);
     int width = bi.biWidth;
 
-    // Allocate memory for image
     RGBTRIPLE(*image)[width] = calloc(height, width * sizeof(RGBTRIPLE));
     if (image == NULL)
     {
@@ -90,14 +79,10 @@ int main(int argc, char *argv[])
     // Iterate over infile's scanlines
     for (int i = 0; i < height; i++)
     {
-        // Read row into pixel array
         fread(image[i], sizeof(RGBTRIPLE), width, inptr);
-
-        // Skip over padding
         fseek(inptr, padding, SEEK_CUR);
     }
 
-    // Filter image
     switch (filter)
     {
         // Blur
@@ -132,16 +117,11 @@ int main(int argc, char *argv[])
 
     }
 
-    // Write outfile's BITMAPFILEHEADER
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
-
-    // Write outfile's BITMAPINFOHEADER
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
-    // Write new pixels to outfile
     for (int i = 0; i < height; i++)
     {
-        // Write row to outfile
         fwrite(image[i], sizeof(RGBTRIPLE), width, outptr);
 
         // Write padding at end of row
@@ -151,13 +131,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    // Free memory for image
     free(image);
-
-    // Close infile
     fclose(inptr);
-
-    // Close outfile
     fclose(outptr);
 
     return 0;
