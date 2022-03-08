@@ -8,7 +8,7 @@
   - thresholding
   - adaptive thresholding
 
-## Запуск (Только на Linux)
+## Запуск (Только на Unix)
 ``` 
 make
 ```
